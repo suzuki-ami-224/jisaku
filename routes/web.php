@@ -19,6 +19,9 @@ Route::group(['middleware' => 'auth'],function(){
     });
 
     Route::resource('user', 'UserController');
+    Route::resource('admin', 'AdminController');
+    Route::resource('instructor', 'InstructorController');
+    Route::resource('genre', 'GenreController');
     Route::get('/home', 'HomeController@index')->name('home');
 
 });

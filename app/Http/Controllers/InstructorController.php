@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Instructor;
+use App\Genre;
 use Illuminate\Http\Request;
 
-class UserController extends Controller
+class InstructorController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -13,7 +15,8 @@ class UserController extends Controller
      */
     public function index()
     {
-        return view('home');
+        return view('instructor');
+
     }
 
     /**
@@ -23,7 +26,10 @@ class UserController extends Controller
      */
     public function create()
     {
-        //
+        $params = Genre::orderBy('id','desc')->get();
+        return view('instructor_create',[
+            'genres' => $params,
+        ]);
     }
 
     /**
@@ -34,16 +40,28 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $instructor = new Instructor;
+
+        $instructor->name = $request->name;
+        $instructor->comment = $request->comment;
+        
+        $file_name =$request->file('picture')->getClientOriginalName();
+        $request->file('picture')->storeAs('public/picture', $file_name);
+
+        $instructor->picture =$file_name;
+
+        $instructor->save();
+
+        return redirect('instructor');
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  \App\Instructor  $instructor
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Instructor $instructor)
     {
         //
     }
@@ -51,10 +69,10 @@ class UserController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param  \App\Instructor  $instructor
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Instructor $instructor)
     {
         //
     }
@@ -63,10 +81,10 @@ class UserController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  \App\Instructor  $instructor
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Instructor $instructor)
     {
         //
     }
@@ -74,10 +92,10 @@ class UserController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  \App\Instructor  $instructor
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Instructor $instructor)
     {
         //
     }
