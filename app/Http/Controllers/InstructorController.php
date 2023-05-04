@@ -6,6 +6,7 @@ use App\Instructor;
 use App\Genre;
 use Illuminate\Http\Request;
 
+
 class InstructorController extends Controller
 {
     /**
@@ -15,7 +16,13 @@ class InstructorController extends Controller
      */
     public function index()
     {
-        return view('instructor');
+        $instructor =new Instructor;
+
+        $all = $instructor->all()->toArray();
+
+        return view('instructor',[
+            'instructors' => $all,
+        ]);
 
     }
 
@@ -44,12 +51,16 @@ class InstructorController extends Controller
 
         $instructor->name = $request->name;
         $instructor->comment = $request->comment;
-        
+
+        $dir = 'picture';
         $file_name =$request->file('picture')->getClientOriginalName();
-        $request->file('picture')->storeAs('public/picture', $file_name);
+        $request->file('picture')->storeAs('public/' . $dir, $file_name);
 
-        $instructor->picture =$file_name;
+        $resized = InterventionImage::make($file_name)->resize(300, null, function ($constraint) {
+            $constraint->aspectRatio();
+        })->save();
 
+        $instructor->picture = $file_name;
         $instructor->save();
 
         return redirect('instructor');
@@ -63,7 +74,7 @@ class InstructorController extends Controller
      */
     public function show(Instructor $instructor)
     {
-        //
+
     }
 
     /**
@@ -74,7 +85,8 @@ class InstructorController extends Controller
      */
     public function edit(Instructor $instructor)
     {
-        //
+        return view('instructor_edit');
+
     }
 
     /**
@@ -86,7 +98,8 @@ class InstructorController extends Controller
      */
     public function update(Request $request, Instructor $instructor)
     {
-        //
+        $genres = Genre::where('name')->get();
+
     }
 
     /**
