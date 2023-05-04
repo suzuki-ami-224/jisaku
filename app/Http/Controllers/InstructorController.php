@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Instructor;
 use App\Genre;
 use Illuminate\Http\Request;
-
+use Image;
 
 class InstructorController extends Controller
 {
@@ -56,9 +56,9 @@ class InstructorController extends Controller
         $file_name =$request->file('picture')->getClientOriginalName();
         $request->file('picture')->storeAs('public/' . $dir, $file_name);
 
-        $resized = InterventionImage::make($file_name)->resize(300, null, function ($constraint) {
-            $constraint->aspectRatio();
-        })->save();
+        // $resized = Image::make($file_name)->resize(300, null, function ($constraint) {
+        //     $constraint->aspectRatio();
+        // })->save();
 
         $instructor->picture = $file_name;
         $instructor->save();
@@ -85,7 +85,16 @@ class InstructorController extends Controller
      */
     public function edit(Instructor $instructor)
     {
-        return view('instructor_edit');
+        $params = Genre::orderBy('id','desc')->get();
+
+
+
+        return view('instructor_edit',[
+            'genres' => $params,
+            'result' => $instructor,
+            'id' => $instructor,
+
+        ]);
 
     }
 
@@ -98,8 +107,19 @@ class InstructorController extends Controller
      */
     public function update(Request $request, Instructor $instructor)
     {
-        $genres = Genre::where('name')->get();
-
+            $columns = ['name', 'jenre_id', 'picture', 'comment'];
+    
+            foreach($columns as $column) {
+                $instructor->$column = $request->$column;
+            }
+    
+            $instructor->save();
+    
+    
+            return redirect('/instructor');
+    
+        
+    
     }
 
     /**
@@ -110,6 +130,7 @@ class InstructorController extends Controller
      */
     public function destroy(Instructor $instructor)
     {
-        //
+        $instructor->delete();
+        return redirect('instructor');
     }
 }
