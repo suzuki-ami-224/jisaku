@@ -1,7 +1,9 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use App\User;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 
 class AdminController extends Controller
@@ -11,9 +13,55 @@ class AdminController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        return view('admin');
+
+        // $users = User::query();
+        // $a = Auth::id();
+        // $query = $users->where('id',$a)->where('role', '0');
+
+        // $user = $request->input('user_name');
+        // if(isset($user)) {
+        //     $query->where("name","like","%".$users."%");
+        // }
+
+        // $users =$query->get();
+
+        // return view('admin',compact('users'));
+
+
+        // return view('admin',[
+        //     'users' =>$users,
+        // ]);
+
+        $users = User::paginate(20);
+
+        // 　　     // 検索フォームで入力された値を取得する
+        $search = $request->input('user_name');
+        
+        //         // クエリビルダ
+        $query = User::query();
+        
+        if ($search) {
+        
+            $spaceConversion = mb_convert_kana($search, 's');
+        
+            $wordArraySearched = preg_split('/[\s,]+/', $spaceConversion, -1, PREG_SPLIT_NO_EMPTY);
+        
+        
+            foreach($wordArraySearched as $value) {
+                        $query->where('name', 'like', '%'.$value.'%');
+            }
+                
+        
+                    $users = $query->paginate(20);
+                }
+        return view('admin',[
+        
+            'users' => $users,
+            'search' => $search,
+        ]);
+
     }
 
     /**
@@ -34,7 +82,6 @@ class AdminController extends Controller
      */
     public function store(Request $request)
     {
-        //
     }
 
     /**

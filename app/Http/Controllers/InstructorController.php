@@ -1,6 +1,8 @@
 <?php
 
 namespace App\Http\Controllers;
+use Illuminate\Support\Facades\Auth;
+
 
 use App\Instructor;
 use App\Genre;
@@ -56,12 +58,9 @@ class InstructorController extends Controller
         $file_name =$request->file('picture')->getClientOriginalName();
         $request->file('picture')->storeAs('public/' . $dir, $file_name);
 
-        // $resized = Image::make($file_name)->resize(300, null, function ($constraint) {
-        //     $constraint->aspectRatio();
-        // })->save();
-
-        $instructor->picture = $file_name;
-        $instructor->save();
+        
+            $instructor->picture = $file_name;
+            $instructor->save();
 
         return redirect('instructor');
     }
@@ -86,6 +85,7 @@ class InstructorController extends Controller
     public function edit(Instructor $instructor)
     {
         $params = Genre::orderBy('id','desc')->get();
+        // dd($instructor['id']);
 
 
 
@@ -107,12 +107,19 @@ class InstructorController extends Controller
      */
     public function update(Request $request, Instructor $instructor)
     {
-            $columns = ['name', 'jenre_id', 'picture', 'comment'];
-    
+            $columns = ['name', 'jenre_id', 'comment'];
+
+            $dir = 'picture';
+            $file_name =$request->file('picture')->getClientOriginalName();
+            $request->file('picture')->storeAs('public/' . $dir, $file_name);
+            
+            
+            
             foreach($columns as $column) {
                 $instructor->$column = $request->$column;
             }
-    
+            $instructor->picture = $file_name;
+            
             $instructor->save();
     
     
@@ -131,6 +138,7 @@ class InstructorController extends Controller
     public function destroy(Instructor $instructor)
     {
         $instructor->delete();
+    
         return redirect('instructor');
     }
 }

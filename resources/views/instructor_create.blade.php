@@ -1,4 +1,18 @@
+<a href="{{ route('instructor.index')}}">戻る</a>
+
+
 <div><p>講師登録</p></div>
+
+@if($errors->any())
+    <div class='alert alert-danger'>
+        <ul>
+        @foreach($errors->all() as $message)
+            <li>{{ $message }} </li>
+        @endforeach
+        </ul>
+    </div>
+    @endif
+
 
 <form action="/instructor" method="post" enctype="multipart/form-data">
     @csrf

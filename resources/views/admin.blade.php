@@ -17,6 +17,19 @@
                     You are logged in!
                     <a href="{{ route('instructor.index')}}">講師一覧#</a>
                 </div>
+                <form action="{{ route('admin.index') }}" method="GET">
+                <input type="search" class='form-control' name='user_name' placeholder="生徒名検索"　value="@if (isset($search)) {{ $search }} @endif">                                            
+                    <button type="submit"  class='btn btn-primary'>検索</button>
+                </form>
+                    @foreach($users as $user)
+                    @if($user['role'] == 0 )
+                    <tr>
+                        <th scope='col'>{{ $user['name'] }}</th>
+                    </tr>
+                    @endif
+                    @endforeach
+
+
             </div>
         </div>
     </div>

@@ -3,7 +3,7 @@
 @section('content')
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
   <div class="container-fluid">
-    <a class="navbar-brand" href="#">Navbar</a>
+    <a class="navbar-brand" href="#">CARAT</a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
@@ -25,23 +25,21 @@
     </div>
   </div>
 </nav>
-<div class="container">
-    <div class="row justify-content-center">
-        <div class="col-md-8">
-            <div class="card">
-                <div class="card-header">Dashboard</div>
+@foreach($instructors as $instructor)
+<div class="card" style="width: 13rem;">
+  <img height="250" src="{{asset('storage/picture/'.$instructor['picture'])}}" class="card-img-top" alt="...">
+  <div class="card-body">
+  <h5 class="card-title">name　→　{{ $instructor['name'] }}</h5>
+    <h5 class="card-text">
+    @foreach($genres as $genre)
+            @if($genre['id'] == $instructor['jenre_id'])
+            
+                <option value="{{ $genre['id']}}" selected>{{ $genre['name'] }}</option>
+            @else
+                <option value="{{ $genre['id']}}">genre　→　{{ $genre['name'] }}</option>
+            @endif
+        @endforeach
 
-                <div class="card-body">
-                    @if (session('status'))
-                        <div class="alert alert-success" role="alert">
-                            {{ session('status') }}
-                        </div>
-                    @endif
+@endforeach
 
-                    You are logged in!
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
 @endsection

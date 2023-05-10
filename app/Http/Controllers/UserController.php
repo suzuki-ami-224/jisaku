@@ -2,6 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Instructor;
+use App\Genre;
+
+
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -13,13 +17,25 @@ class UserController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
+
+        $instructor = new Instructor;
+        $params = Genre::orderBy('id','desc')->get();
+
+
+        $instructors = $instructor->all()->toArray();
+
+        
         if(Auth::user()->role == 0){
-            return view('home');
+            return view('home',[
+                'instructors' => $instructors,
+                'genres' => $params,
+            ]);
 
         }else{
-            return view('admin');
+            return view('admin'
+            );
         }
     }
 
