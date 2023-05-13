@@ -26,11 +26,13 @@ class UserController extends Controller
 
         $instructors = $instructor->all()->toArray();
 
+        $genre = $instructor->with('genre')->first()->toArray();
+
         
         if(Auth::user()->role == 0){
             return view('home',[
                 'instructors' => $instructors,
-                'genres' => $params,
+                'genres' => $genre,
             ]);
 
         }else{

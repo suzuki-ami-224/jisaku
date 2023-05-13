@@ -10,36 +10,43 @@
     <div class="collapse navbar-collapse" id="navbarNav">
       <ul class="navbar-nav">
         <li class="nav-item">
-          <a class="nav-link active" aria-current="page" href="#">講師</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#">カレンダー</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#">レッスン予約</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#">マイページ</a>
-        </li>
+          <div class="nav-link active" aria-current="page">
+            <a class="nav-link"href="#kousi">講師</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#calendar">レッスン</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">レッスン予約</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">マイページ</a>
+            </li>
+        </div>
       </ul>
     </div>
   </div>
 </nav>
+<div id="kousi"><center class="text_1 mt-3"><font size="6">講師一覧</font></center></div>
+<div style="display:flex;">
 @foreach($instructors as $instructor)
 <div class="card" style="width: 13rem;">
-  <img height="250" src="{{asset('storage/picture/'.$instructor['picture'])}}" class="card-img-top" alt="...">
-  <div class="card-body">
-  <h5 class="card-title">name　→　{{ $instructor['name'] }}</h5>
-    <h5 class="card-text">
-    @foreach($genres as $genre)
-            @if($genre['id'] == $instructor['jenre_id'])
-            
-                <option value="{{ $genre['id']}}" selected>{{ $genre['name'] }}</option>
-            @else
-                <option value="{{ $genre['id']}}">genre　→　{{ $genre['name'] }}</option>
-            @endif
-        @endforeach
+    <img height="250" src="{{asset('storage/picture/'.$instructor['picture'])}}" class="card-img-top" alt="...">
+    <div class="card-body">
+      <h5 class="card-title">name　→　{{ $instructor['name'] }}<br>name　→　{{ $instructor['name'] }}</h5>
+        </div>
+      </div>
+      @endforeach
+  </div>
+<div id='calendar' style="width: 70%; "></div>
 
-@endforeach
-
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  var calendarEl = document.getElementById('calendar');
+  var calendar = new FullCalendar.Calendar(calendarEl, {
+    initialView: 'dayGridMonth'
+  });
+  calendar.render();
+});
+</script>
 @endsection

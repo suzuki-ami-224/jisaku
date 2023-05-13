@@ -21,6 +21,7 @@ Route::group(['middleware' => 'auth'],function(){
     Route::resource('genre', 'GenreController');
     Route::resource('lesson', 'LessonController');
     Route::get('/home', 'HomeController@index')->name('home');
+    Route::get('/api','LessonController@test');
 
 });
 
