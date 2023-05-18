@@ -12,9 +12,9 @@
     @csrf
     <label for='name'>インストラクター名</label>
         <input type='text' class='form-control' name='name' value="{{ old('name',$result->name)}}"/><br>
-    <select name='jenre_id' class='form-control'>
+    <select name='genre_id' class='form-control'>
         @foreach($genres as $genre)
-            @if($genre['id'] == $result['jenre_id'])
+            @if($genre['id'] == $result['genre_id'])
             
                 <option value="{{ $genre['id']}}" selected>{{ $genre['name'] }}</option>
             @else

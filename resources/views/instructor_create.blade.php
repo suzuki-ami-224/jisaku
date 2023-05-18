@@ -18,7 +18,7 @@
     @csrf
     <label for='name'>インストラクター名</label>
         <input type='text' class='form-control' name='name' value="{{ old('name')}}"/><br>
-    <select name='jenre_id' class='form-control'>
+    <select name='genre_id' class='form-control'>
         <option value='' hidden>ジャンル</option>
         @foreach($genres as $genre)
         <option value="{{ $genre['id']}}">{{ $genre['name'] }}</option>

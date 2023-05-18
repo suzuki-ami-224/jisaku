@@ -21,18 +21,20 @@ class UserController extends Controller
     {
 
         $instructor = new Instructor;
-        $params = Genre::orderBy('id','desc')->get();
+        // $genre= Genre::all()->toArray();
+        // dd($genre);
+        $instructors = $instructor;
+        
+        $instructors = \DB::table('instructors')->join('genres', 'instructors.genre_id','=', 'genres.id')->select('instructors.*','genres.name as genresname')->get();
+        // dd($instructors);
+        // $instructors = $instructors->join('genres', 'instructors.genre_id', 'genres.id')->get();
+        // $instructors = Genre::join('instructors', 'genres.id', 'genre_id')->selectRaw('instructors.*','genres.name as genresname')->get();
 
-
-        $instructors = $instructor->all()->toArray();
-
-        $genre = $instructor->with('genre')->first()->toArray();
 
         
         if(Auth::user()->role == 0){
             return view('home',[
                 'instructors' => $instructors,
-                'genres' => $genre,
             ]);
 
         }else{
