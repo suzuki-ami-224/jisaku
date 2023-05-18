@@ -30,7 +30,7 @@
 <div style="display:flex;">
 @foreach($instructors as $instructor)
 <div class="card mx-5" style="width: 14rem;">
-    <img height="250" src="{{asset('storage/picture/'.$instructor->picture)}}" class="card-img-top" alt="...">
+<span title="{{ $instructor->comment }}"> <img height="250" src="{{asset('storage/picture/'.$instructor->picture)}}" class="card-img-top" alt="..."></span>
     <div class="card-body">
       <h5 class="card-title">name　→　{{ $instructor->name }}<br>name　→　{{ $instructor->genresname }}</h5>
         </div>

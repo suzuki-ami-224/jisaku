@@ -2,7 +2,7 @@
 
 @section('content')
 
-<a href="{{ route('instructor.index')}}">戻る</a>
+<a href="{{ route('user.index')}}">戻る</a>
 
 
 <div>レッスン登録</div>
