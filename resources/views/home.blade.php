@@ -21,6 +21,10 @@
             <li class="nav-item">
               <a class="nav-link" href="#">マイページ</a>
             </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{{ route('lesson.index')}}">検索</a>
+            </li>
+            
         </div>
       </ul>
     </div>
@@ -40,11 +44,12 @@
 <center><div id='calendar' style=" width: 70%; "></div></center>
 
 <script>
+  let events = <?php echo $data; ?>;
 document.addEventListener('DOMContentLoaded', function() {
   var calendarEl = document.getElementById('calendar');
   var calendar = new FullCalendar.Calendar(calendarEl, {
     initialView: 'dayGridMonth',
-    events:'3f8da0694d48abb2ac8cfc233b6a75b6b30c3e4096395d15771aef3657e76bfb@group.calendar.google.com',
+    events:events,
     googleCalendarApiKey: 'AIzaSyCRhzsBtcBRYW44aHyCciLR7kdDTaaimjA',
     eventDidMount: (e)=>{
       tippy(e.el, {

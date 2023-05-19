@@ -35,7 +35,7 @@
     <label for='finish' class='mt-2'>終了時間</label>
       <input type="datetime-local" name="finish"><br>
     <label for='color' class='mt-2'>カラー</label>
-        <input type="text" class='form-control' name='color' value="{{ old('color') }}"></label>
+        <input type="color" class='form-control' name='color' value="{{ old('color') }}"></label>
     <div class='row justify-content-center'>
         <button type='submit' class='btn btn-primary w-25 mt-3'>登録</button>        
     </div> 

@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 
 use App\User;
 use App\Instructor;
+use App\Lesson;
+use App\Genre;
 
 use Google_Client;
 use Google_Service_Calendar;
@@ -19,8 +21,45 @@ class LessonController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
+        $name = $request->input('name');
+        $genre = $request->input('genre');
+        $lesson = $request->input('lesson');
+
+        $instructors = Instructor::all()->toArray();
+        $genres = Genre::all()->toArray();
+        $lessons = Lesson::all()->toArray();
+        
+        $query = Instructor::query();
+        //テーブル結合
+        $query->join('lessons', function ($query) use ($request) {
+            $query->on('instructors.id', '=', 'lessons.instructor_id');
+            })->join('genres', function ($query) use ($request) {
+            $query->on('instructors.genre_id', '=', 'genres.id');
+            })->select('instructors.*','genres.name as genresname','lessons.*');
+
+        if(!empty($name)) {
+            $query->where('instructors.name', 'LIKE', $name);
+        }
+
+        if(!empty($name)) {
+            $query->where('genres.name', 'LIKE', $genre);
+        }
+
+        if(!empty($name)) {
+            $query->where('lessons.start', 'LIKE', $lesson);
+        }
+
+        $items = $query->get();
+        // dd($items);
+        return view('yoyaku',[
+            'items'=>$items,
+            'instructors'=>$instructors,
+            'name'=>$name,
+            'genres'=>$genres,
+            'lessons'=>$lessons,
+        ]);
     }
 
 
@@ -48,20 +87,6 @@ class LessonController extends Controller
      */
     public function store(Request $request)
     {
-        $lesson = new Lesson;
-
-        $lesson->instructor_id = $request->instructor_id;
-        $lesson->title = $request->title;
-        $lesson->start = $request->start;
-        $lesson->finish = $request->finish;
-        $lesson->color = $request->color;
-
-        dd($lesson);
-
-        $lesson->save();
-
-        return redirect('lesson_create');
-
 
     }
 
@@ -140,9 +165,22 @@ class LessonController extends Controller
             ),
         ));
 
+        
         $event = $service->events->insert($calendarId, $event);
         echo "イベントを追加しました";
-        
+        $lesson = new Lesson;
+
+        $lesson->instructor_id = $request->instructor_id;
+        $lesson->title = $request->title;
+        $lesson->start = $request->start;
+        $lesson->finish = $request->finish;
+        $lesson->color = $request->color;
+
+        $lesson->save();
+
+        return redirect('/user');
+
+  
     }
 
     private function getClient()

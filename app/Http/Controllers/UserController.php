@@ -29,12 +29,13 @@ class UserController extends Controller
         // dd($instructors);
         // $instructors = $instructors->join('genres', 'instructors.genre_id', 'genres.id')->get();
         // $instructors = Genre::join('instructors', 'genres.id', 'genre_id')->selectRaw('instructors.*','genres.name as genresname')->get();
-
+        $data= \DB::table('lessons')->get();
 
         
         if(Auth::user()->role == 0){
             return view('home',[
                 'instructors' => $instructors,
+                'data' => $data,
             ]);
 
         }else{
