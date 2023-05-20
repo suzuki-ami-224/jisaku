@@ -4,7 +4,7 @@
 
 
 <a href="{{ route('instructor.create')}}">講師登録</a>
-<a href="{{ route('admin.index')}}">戻る</a>
+<a href="{{ route('user.index')}}">戻る</a>
     <table class='table'>
         <thead>
             <tr>

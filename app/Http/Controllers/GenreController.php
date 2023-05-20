@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\genre;
+use App\Genre;
+use App\Instructor;
+use App\Lesson;
 use Illuminate\Http\Request;
 
 class GenreController extends Controller
@@ -14,6 +16,8 @@ class GenreController extends Controller
      */
     public function index()
     {
+
+
     }
 
     /**

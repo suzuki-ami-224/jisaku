@@ -16,10 +16,8 @@ class Lesson extends Model
     protected static function boot(){
         parent::boot();
 
-        self::saving(function($stock){
-            $stock->instructor_id =\Auth::id();
-        });
-    }
+        }
+    
 
 
 }

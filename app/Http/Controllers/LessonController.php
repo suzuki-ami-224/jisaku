@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
-use App\User;
 use App\Instructor;
 use App\Lesson;
 use App\Genre;
@@ -23,42 +22,14 @@ class LessonController extends Controller
      */
     public function index(Request $request)
     {
-        $name = $request->input('name');
-        $genre = $request->input('genre');
-        $lesson = $request->input('lesson');
+        $lesson = new Lesson;
 
-        $instructors = Instructor::all()->toArray();
-        $genres = Genre::all()->toArray();
-        $lessons = Lesson::all()->toArray();
-        
-        $query = Instructor::query();
-        //テーブル結合
-        $query->join('lessons', function ($query) use ($request) {
-            $query->on('instructors.id', '=', 'lessons.instructor_id');
-            })->join('genres', function ($query) use ($request) {
-            $query->on('instructors.genre_id', '=', 'genres.id');
-            })->select('instructors.*','genres.name as genresname','lessons.*');
+        $lessons = $lesson;
 
-        if(!empty($name)) {
-            $query->where('instructors.name', 'LIKE', $name);
-        }
+        $lessons = \DB::table('lessons')->join('instructors', 'lessons.instructor_id','=', 'instructors.id')->select('instructors.*','lessons.*','lessons.id as lessonid')->get();
 
-        if(!empty($name)) {
-            $query->where('genres.name', 'LIKE', $genre);
-        }
-
-        if(!empty($name)) {
-            $query->where('lessons.start', 'LIKE', $lesson);
-        }
-
-        $items = $query->get();
-        // dd($items);
-        return view('yoyaku',[
-            'items'=>$items,
-            'instructors'=>$instructors,
-            'name'=>$name,
-            'genres'=>$genres,
-            'lessons'=>$lessons,
+        return view('lesson',[
+            'lessons' => $lessons
         ]);
     }
 
@@ -107,9 +78,20 @@ class LessonController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(int $id)
     {
-        //
+        $params = Lesson::find($id);
+        $instructors = Instructor::all()->toArray();
+        // dd($instructors);
+
+        return view('lesson_edit',[
+            'lesson' => $params,
+            'instructors' => $instructors,
+            'id' => $id,
+
+        ]);
+
+
     }
 
     /**
@@ -119,9 +101,25 @@ class LessonController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, int $id)
     {
-        //
+        $lessons = new Lesson;
+        $lesson = $lessons->find($id);
+        $lesson->instructor_id = $request->instructor_id;
+        $lesson->title = $request->title;
+        $lesson->start = $request->start;
+        $lesson->finish = $request->finish;
+        $lesson->color = $request->color;
+        // $columns = ['title', 'instructor_id', 'start','finish', 'color'];
+
+        // foreach($columns as $column) {
+        //     $lesson->$column = $request->$column;
+        // }
+        $lesson->save();
+
+
+        return redirect('/lesson');
+
     }
 
     /**
@@ -130,9 +128,12 @@ class LessonController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Lesson $lesson)
     {
-        //
+        $lesson->delete();
+    
+        return redirect('lesson');
+
     }
 
     public function lesson_creat(Request $request)
@@ -178,7 +179,7 @@ class LessonController extends Controller
 
         $lesson->save();
 
-        return redirect('/user');
+        return redirect('/lesson');
 
   
     }

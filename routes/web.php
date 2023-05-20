@@ -20,6 +20,7 @@ Route::group(['middleware' => 'auth'],function(){
     Route::resource('instructor', 'InstructorController');
     Route::resource('genre', 'GenreController');
     Route::resource('lesson', 'LessonController');
+    Route::resource('reservation', 'ReservationController');
     Route::get('/home', 'HomeController@index')->name('home');
     Route::get('/api','LessonController@lesson_creat')->name('lesson.creat');
 

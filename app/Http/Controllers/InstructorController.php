@@ -107,7 +107,7 @@ class InstructorController extends Controller
      */
     public function update(Request $request, Instructor $instructor)
     {
-            $columns = ['name', 'jenre_id', 'comment'];
+            $columns = ['name', 'genre_id', 'comment'];
 
             $dir = 'picture';
             $file_name =$request->file('picture')->getClientOriginalName();

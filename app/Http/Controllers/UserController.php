@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Instructor;
 use App\Genre;
+use App\User;
 
 
 use Illuminate\Http\Request;
@@ -31,6 +32,29 @@ class UserController extends Controller
         // $instructors = Genre::join('instructors', 'genres.id', 'genre_id')->selectRaw('instructors.*','genres.name as genresname')->get();
         $data= \DB::table('lessons')->get();
 
+        $users = User::paginate(20);
+
+        // 　　     // 検索フォームで入力された値を取得する
+        $search = $request->input('user_name');
+        
+        //         // クエリビルダ
+        $query = User::query();
+        
+        if ($search) {
+        
+            $spaceConversion = mb_convert_kana($search, 's');
+        
+            $wordArraySearched = preg_split('/[\s,]+/', $spaceConversion, -1, PREG_SPLIT_NO_EMPTY);
+        
+        
+            foreach($wordArraySearched as $value) {
+                        $query->where('name', 'like', '%'.$value.'%');
+            }
+                
+        
+                    $users = $query->paginate(20);
+                }
+
         
         if(Auth::user()->role == 0){
             return view('home',[
@@ -39,9 +63,12 @@ class UserController extends Controller
             ]);
 
         }else{
-            return view('admin'
-            );
-        }
+            return view('admin',[
+        
+                'users' => $users,
+                'search' => $search,
+            ]);
+            }
     }
 
     /**
@@ -96,7 +123,7 @@ class UserController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+    
     }
 
     /**
@@ -105,8 +132,11 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(User $user)
     {
-        //
+        $user->delete();
+        
+        return redirect('admin');
+
     }
 }

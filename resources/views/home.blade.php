@@ -22,7 +22,7 @@
               <a class="nav-link" href="#">マイページ</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="{{ route('lesson.index')}}">検索</a>
+              <a class="nav-link" href="{{ route('reservation.index')}}">検索</a>
             </li>
             
         </div>
@@ -31,7 +31,7 @@
   </div>
 </nav>
 <div id="kousi"><center class="text_1 mt-3"><font size="6">講師一覧</font></center></div>
-<div style="display:flex;">
+<div style="display:flex-wrap:wrap;">
 @foreach($instructors as $instructor)
 <div class="card mx-5" style="width: 14rem;">
 <span title="{{ $instructor->comment }}"> <img height="250" src="{{asset('storage/picture/'.$instructor->picture)}}" class="card-img-top" alt="..."></span>

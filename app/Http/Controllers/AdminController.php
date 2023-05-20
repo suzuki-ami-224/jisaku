@@ -34,33 +34,33 @@ class AdminController extends Controller
         //     'users' =>$users,
         // ]);
 
-        $users = User::paginate(20);
+        // $users = User::paginate(20);
 
-        // 　　     // 検索フォームで入力された値を取得する
-        $search = $request->input('user_name');
+        // // 　　     // 検索フォームで入力された値を取得する
+        // $search = $request->input('user_name');
         
-        //         // クエリビルダ
-        $query = User::query();
+        // //         // クエリビルダ
+        // $query = User::query();
         
-        if ($search) {
+        // if ($search) {
         
-            $spaceConversion = mb_convert_kana($search, 's');
+        //     $spaceConversion = mb_convert_kana($search, 's');
         
-            $wordArraySearched = preg_split('/[\s,]+/', $spaceConversion, -1, PREG_SPLIT_NO_EMPTY);
+        //     $wordArraySearched = preg_split('/[\s,]+/', $spaceConversion, -1, PREG_SPLIT_NO_EMPTY);
         
         
-            foreach($wordArraySearched as $value) {
-                        $query->where('name', 'like', '%'.$value.'%');
-            }
+        //     foreach($wordArraySearched as $value) {
+        //                 $query->where('name', 'like', '%'.$value.'%');
+        //     }
                 
         
-                    $users = $query->paginate(20);
-                }
-        return view('admin',[
+        //             $users = $query->paginate(20);
+        //         }
+        // return view('admin',[
         
-            'users' => $users,
-            'search' => $search,
-        ]);
+        //     'users' => $users,
+        //     'search' => $search,
+        // ]);
 
     }
 

@@ -16,8 +16,8 @@ class Instructor extends Model
     protected static function boot(){
         parent::boot();
 
-        self::saving(function($stock){
-            $stock->genre_id =\Auth::id();
-        });
+        // self::saving(function($stock){
+        //     $stock->genre_id =\Auth::id();
+        // });
     }
 }

@@ -1,8 +1,11 @@
 @extends('layouts.app')
 
 @section('content')
+
+<a href="{{ route('user.index')}}">戻る</a>
+
 <div class="search" >
-    <form action="{{ route('lesson.index') }}" method="GET">
+    <form action="{{ route('reservation.index') }}" method="GET">
         @csrf
         
         <div class="form-group">
@@ -68,6 +71,7 @@
 
     <table>
         <tr>
+            <th>id</th>
             <th>講師名</th>
             <th>ジャンル</th>
             <th>日時</th>
@@ -75,10 +79,13 @@
 
         @foreach ($items as $item)
         <tr>
+            <td>{{ $item->id }}</td>
             <td>{{ $item->name }}</td>
             <td>{{ $item->genresname }}</td>
             <td>{{ $item->start }}</td>
+            <td><a href="{{ route('reservation.create', ['lesson' => $lesson->id])}}">予約</a></td>
         </tr>
         @endforeach
+</td>
     </table>
 @endsection
