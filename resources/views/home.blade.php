@@ -16,13 +16,10 @@
               <a class="nav-link" href="#calendar">レッスン</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="{{ route('lesson.create') }}">レッスン予約</a>
+              <a class="nav-link" href="{{ route('reservation.index')}}">レッスン予約</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="#">マイページ</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="{{ route('reservation.index')}}">検索</a>
+              <a class="nav-link" href="{{ route('user.show', ['user' => auth()->user()->id]) }}">マイページ</a>
             </li>
             
         </div>

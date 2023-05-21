@@ -9,6 +9,7 @@ use App\User;
 
 use App\Reservation;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class ReservationController extends Controller
 {
@@ -26,7 +27,6 @@ class ReservationController extends Controller
         $instructors = Instructor::all()->toArray();
         $genres = Genre::all()->toArray();
         $lessons = Lesson::all()->toArray();
-        $a = \DB::table('reservations')->join('lessons', 'reservation.lesson_id','=', 'lessons.id')->select('lessons.*','reservations.*','reservations.id as reservationid')->get();
 
 
         $query = Instructor::query();
@@ -50,6 +50,7 @@ class ReservationController extends Controller
         }
 
         $items = $query->get();
+    
         // dd($items);
         return view('yoyaku',[
             'items'=>$items,
@@ -65,32 +66,8 @@ class ReservationController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create(Reservation $reservation)
+    public function create(int $id)
     {
-        
-        // $users = User::orderBy('id','desc')->get();
-        
-        
-        // dd($lessons);
-        
-        // return view('reservation_create',[
-            //     'users' => $users,
-            //     'lessons' => $lessons,
-            // ]);
-            
-            // $params = Lesson::find($id);
-            $lessons = \DB::table('reservations')->join('lessons', 'reservation.lesson_id','=', 'lessons.id')->select('lessons.*','reservations.id as reservationid')->get();
-            $lessons = Lesson::orderBy('id','desc')->get();
-        dd($lessons);
-
-        return view('lesson_edit',[
-            'lesson' => $params,
-            'instructors' => $instructors,
-            'id' => $id,
-        ]);
-
-
-
     }
 
     /**
@@ -101,7 +78,20 @@ class ReservationController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $reservation = new Reservation;
+        dd($reservation);
+        $user = Auth::id();
+        
+        $reservation->user_id = $user;
+        $reservation->lesson_id = $request->lesson_id;
+        
+
+        $reservation->save();
+
+        return redirect('/reservation');
+
+    
+
     }
 
     /**
@@ -110,9 +100,18 @@ class ReservationController extends Controller
      * @param  \App\Reservation  $reservation
      * @return \Illuminate\Http\Response
      */
-    public function show(Reservation $reservation)
+    public function show($id)
     {
-        //
+        $user = Auth::user();
+        $reservation = new Reservation;
+        
+        $reservations = \DB::table('reservations')->join('lessons', 'reservations.lesson_id','=', 'lessons.id')->get();
+        // dd($reservations);
+
+        return view('mypage',[
+            'user' => $user,
+            'reservations' =>$reservations
+        ]);
     }
 
     /**
@@ -121,9 +120,28 @@ class ReservationController extends Controller
      * @param  \App\Reservation  $reservation
      * @return \Illuminate\Http\Response
      */
-    public function edit(Reservation $reservation)
+    public function edit(int $id)
     {
-        //
+        
+        // $lessons = Lesson::orderBy('id','desc')->get();
+        
+        // return view('lesson_edit',[
+            //     'lesson' => $params,
+            //     'id' => $id,
+            // ]);
+            
+            $params = Lesson::find($id);
+            $instructors = Instructor::all()->toArray();
+            // dd($instructors);
+
+        return view('/reservation',[
+            'lesson' => $params,
+            'instructors' => $instructors,
+            'id' => $id,
+
+        ]);
+
+
     }
 
     /**
@@ -133,19 +151,34 @@ class ReservationController extends Controller
      * @param  \App\Reservation  $reservation
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Reservation $reservation)
+    public function update(Request $request, int $id)
     {
-        //
+        $reservation = new Reservation;
+        $user = Auth::id();
+        
+        $reservation->user_id = $user;
+        $reservation->lesson_id = $id;
+        
+        $reservation->save();
+
+        return redirect('/reservation');
+
+
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Reservation  $reservation
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Reservation $reservation)
+    public function destroy(int $id)
     {
-        //
+        $reservation = Reservation::find($id);
+        // dd($reservation);
+        $reservation->delete();
+    
+        return redirect()->route('user.show',['user'=>Auth::id()]);
+
     }
 }

@@ -12,6 +12,11 @@ class Reservation extends Model
         return $this->belongsTo('App\Lesson','lesson_id','id');
     }
 
+    public function user() {
+        return $this->belongsTo('App\User','user_id','id');
+    }
+
+
 
     protected static function boot(){
         parent::boot();

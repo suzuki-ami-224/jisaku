@@ -153,7 +153,7 @@ class LessonController extends Controller
 
        
             'summary' => $instructor_id,
-            'description' =>$title,
+            // 'description' =>$title,
             'start' => array(
             // 開始日時
             'dateTime' => $start.':00+09:00',

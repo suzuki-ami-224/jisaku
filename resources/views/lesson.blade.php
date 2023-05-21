@@ -35,7 +35,7 @@
                         <form action="{{ route('lesson.destroy', ['lesson' => $lesson->lessonid]) }}" method="POST">
                             {{ csrf_field() }}
                             @method('DELETE')
-                            <div><button type="submit" class='btn btn-danger'>削除</button></div><br>
+                            <div><button type="submit" class='btn btn-danger' onclick='return confirm("本当に削除しますか？")'>削除</button></div><br>
                         </form>
                     </th>
 

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Instructor;
 use App\Genre;
 use App\User;
+use App\Reservation;
 
 
 use Illuminate\Http\Request;
@@ -55,11 +56,14 @@ class UserController extends Controller
                     $users = $query->paginate(20);
                 }
 
+                $id = Auth::id();
+
         
         if(Auth::user()->role == 0){
             return view('home',[
                 'instructors' => $instructors,
                 'data' => $data,
+                'id' => $id
             ]);
 
         }else{
@@ -100,7 +104,16 @@ class UserController extends Controller
      */
     public function show($id)
     {
-        //
+        $user = Auth::user();
+        $reservation = new Reservation;
+        
+        $reservations = \DB::table('reservations')->join('lessons', 'reservations.lesson_id','=', 'lessons.id')->select('lessons.*', 'reservations.*','lessons.id as lessonid')->get();
+        // dd($reservations);
+
+        return view('mypage',[
+            'user' => $user,
+            'reservations' =>$reservations
+        ]);
     }
 
     /**
@@ -136,7 +149,7 @@ class UserController extends Controller
     {
         $user->delete();
         
-        return redirect('admin');
+        return redirect('user');
 
     }
 }

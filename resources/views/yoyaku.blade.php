@@ -83,7 +83,7 @@
             <td>{{ $item->name }}</td>
             <td>{{ $item->genresname }}</td>
             <td>{{ $item->start }}</td>
-            <td><a href="{{ route('reservation.create', ['lesson' => $lesson->id])}}">予約</a></td>
+            <td><a href="{{ route('reservation.edit', ['reservation' => $item->id])}}">予約</a></td>
         </tr>
         @endforeach
 </td>
