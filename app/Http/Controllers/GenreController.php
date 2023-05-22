@@ -6,6 +6,8 @@ use App\Genre;
 use App\Instructor;
 use App\Lesson;
 use Illuminate\Http\Request;
+use App\Http\Requests\GenreData;
+
 
 class GenreController extends Controller
 {
@@ -36,7 +38,7 @@ class GenreController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(GenreData $request)
     {
         $genre = new Genre;
 

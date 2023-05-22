@@ -28,7 +28,7 @@
   </div>
 </nav>
 <div id="kousi"><center class="text_1 mt-3"><font size="6">講師一覧</font></center></div>
-<div style="display:flex-wrap:wrap;">
+<div class="d-flex flex-wrap">
 @foreach($instructors as $instructor)
 <div class="card mx-5" style="width: 14rem;">
 <span title="{{ $instructor->comment }}"> <img height="250" src="{{asset('storage/picture/'.$instructor->picture)}}" class="card-img-top" alt="..."></span>

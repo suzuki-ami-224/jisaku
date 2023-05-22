@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Http\Requests\LessonData;
+
 
 use App\Instructor;
 use App\Lesson;
@@ -97,11 +99,11 @@ class LessonController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\CreateData  $request
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, int $id)
+    public function update(LessonData $request, int $id)
     {
         $lessons = new Lesson;
         $lesson = $lessons->find($id);
@@ -136,7 +138,7 @@ class LessonController extends Controller
 
     }
 
-    public function lesson_creat(Request $request)
+    public function lesson_creat(LessonData $request)
     {
         $client = $this->getClient();
         $service = new Google_Service_Calendar($client);

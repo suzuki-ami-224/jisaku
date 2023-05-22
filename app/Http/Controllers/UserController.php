@@ -9,6 +9,7 @@ use App\Reservation;
 
 
 use Illuminate\Http\Request;
+use App\Http\Requests\CreateData;
 use Illuminate\Support\Facades\Auth;
 
 

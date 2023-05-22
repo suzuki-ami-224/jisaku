@@ -9,6 +9,7 @@ use App\User;
 
 use App\Reservation;
 use Illuminate\Http\Request;
+
 use Illuminate\Support\Facades\Auth;
 
 class ReservationController extends Controller
@@ -76,7 +77,7 @@ class ReservationController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(CreateData $request)
     {
         $reservation = new Reservation;
         dd($reservation);

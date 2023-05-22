@@ -7,6 +7,8 @@ use Illuminate\Support\Facades\Auth;
 use App\Instructor;
 use App\Genre;
 use Illuminate\Http\Request;
+use App\Http\Requests\CreateData;
+
 use Image;
 
 class InstructorController extends Controller
@@ -44,10 +46,10 @@ class InstructorController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  _App\Http\Requests\CreateData $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(CreateData $request)
     {
         $instructor = new Instructor;
 
@@ -105,7 +107,7 @@ class InstructorController extends Controller
      * @param  \App\Instructor  $instructor
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Instructor $instructor)
+    public function update(CreateData $request, Instructor $instructor)
     {
             $columns = ['name', 'genre_id', 'comment'];
 

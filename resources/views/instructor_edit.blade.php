@@ -4,6 +4,17 @@
 
 <a href="{{ route('instructor.index')}}">戻る</a>
 
+@if($errors->any())
+    <div class='alert alert-danger'>
+        <ul>
+        @foreach($errors->all() as $message)
+            <li>{{ $message }} </li>
+        @endforeach
+        </ul>
+    </div>
+    @endif
+
+
 
 <div><p>講師編集</p></div>
 
@@ -29,3 +40,4 @@
         <button type='submit' class='btn btn-primary w-25 mt-3'>編集</button>        
     </div> 
 </form>
+@endsection

@@ -1,3 +1,7 @@
+@extends('layouts.app')
+
+@section('content')
+
 <a href="{{ route('instructor.index')}}">戻る</a>
 
 
@@ -32,3 +36,4 @@
         <button type='submit' class='btn btn-primary w-25 mt-3'>登録</button>        
     </div> 
 </form>
+@endsection
