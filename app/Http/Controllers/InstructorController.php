@@ -46,7 +46,7 @@ class InstructorController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  _App\Http\Requests\CreateData $request
+     * @param  \App\Http\Requests\CreateData $request
      * @return \Illuminate\Http\Response
      */
     public function store(CreateData $request)
@@ -55,6 +55,7 @@ class InstructorController extends Controller
 
         $instructor->name = $request->name;
         $instructor->comment = $request->comment;
+        $instructor->genre_id = $request->genre_id;
 
         $dir = 'picture';
         $file_name =$request->file('picture')->getClientOriginalName();

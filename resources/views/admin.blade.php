@@ -15,7 +15,7 @@
                     @endif
 
 
-                    <div class="nav-item">
+                    <div class="nav-item text-center">
                     <a class="nav-link" href="{{ route('instructor.index')}}">講師一覧</a>
                     </div>
                     <div class="nav-item">
@@ -27,22 +27,45 @@
                 <input type="search" class='form-control' name='user_name' placeholder="生徒名検索"　value="@if (isset($search)) {{ $search }} @endif">                                            
                     <button type="submit"  class='btn btn-primary'>検索</button>
                 </form>
-                    @foreach($users as $user)
-                    @if($user['role'] == 0 )
-                    <tr>
-                        <th scope='col'>{{ $user['name'] }}</th>
+                <table class='table  text-center'>
+                    <thead>
+                        <tr>
+                            <th scope='col'>生徒</th>
+                            <th scope='col'>レッスン予約</th>
+                            <th scope='col'></th>
+                        </tr>
+                    </thead>
+                        <tbody>
+                        @foreach($users as $user)
+                        @if($user['role'] == 0 )
+                        <div class="d-flex flex-wrap">
+                            <tr>
+                            <th scope='col'>{{ $user['name'] }}</th>
+                            @foreach($reservations as $reservation)
+                            @if($reservation->user_id == $user['id'] )
+                                <th>{{ $reservation->title }}</th>
+                                <th>{{ $reservation->start }}</th>
+                                <th>{{ $reservation->finish }}</th>
+                            @endif
+                            @endforeach
+                        
+                        <th>
+                        <div><a href="{{ route('user.edit', ['user' => $user['id']]) }}">
+                            <div><button  class='btn btn-primary'>編集</button></div>
+                        </a>
+                        </th>
                         <th><form action="{{ route('user.destroy', ['user' => $user['id']]) }}" method="POST">
                             {{ csrf_field() }}
                             @method('DELETE')
                             <div><button type="submit" class='btn btn-danger'>削除</button></div>
-                        </form>
-                        </th>
-                    </tr>
-
+                            </form>
+                        </th></div>
+                        </div>
                     @endif
                     @endforeach
-
-
+                    </tbody>
+                    </table>
+                </tr>
             </div>
         </div>
     </div>

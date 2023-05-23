@@ -19,6 +19,9 @@
                         <tr>
                             <th>{{ $user->name }}</th>
                             <th>{{ $user->email }}</th>
+                            <a href="{{ route('user.edit', ['user' => auth()->user()->id]) }}">
+                            <div><button  class='btn btn-primary'>編集</button></div>
+
                         </tr>
                         <tr>
                             @foreach($reservations as $reservation)

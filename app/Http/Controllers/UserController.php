@@ -9,7 +9,7 @@ use App\Reservation;
 
 
 use Illuminate\Http\Request;
-use App\Http\Requests\CreateData;
+use App\Http\Requests\UserData;
 use Illuminate\Support\Facades\Auth;
 
 
@@ -59,19 +59,23 @@ class UserController extends Controller
 
                 $id = Auth::id();
 
+                $reservations = \DB::table('reservations')->join('lessons', 'reservations.lesson_id','=', 'lessons.id')->select('lessons.*', 'reservations.*','lessons.id as lessonid')->get();
+
+
         
         if(Auth::user()->role == 0){
             return view('home',[
                 'instructors' => $instructors,
                 'data' => $data,
-                'id' => $id
+                'id' => $id,
             ]);
-
+            
         }else{
             return view('admin',[
-        
+                
                 'users' => $users,
                 'search' => $search,
+                'reservations' => $reservations
             ]);
             }
     }
@@ -125,7 +129,19 @@ class UserController extends Controller
      */
     public function edit($id)
     {
-        //
+        $params = User::find($id);
+
+        // dd($params);
+
+        return view('user_edit',[
+            'user' => $params,
+            'result' => $params,
+
+
+        ]);
+
+    
+
     }
 
     /**
@@ -135,9 +151,20 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(UserData $request, User $user)
     {
-    
+        $columns = ['name', 'email'];        
+        
+        foreach($columns as $column) {
+            $user->$column = $request->$column;
+        }
+        
+        $user->save();
+
+
+        return redirect()->route('user.show',['user'=>Auth::id()]);
+
+
     }
 
     /**

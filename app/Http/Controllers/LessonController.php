@@ -3,8 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Http\Requests\LessonData;
 
+use App\Http\Requests\LessonData;
 
 use App\Instructor;
 use App\Lesson;
@@ -99,18 +99,50 @@ class LessonController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\CreateData  $request
+     * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
     public function update(LessonData $request, int $id)
     {
+        $client = $this->getClient();
+        $service = new Google_Service_Calendar($client);
+
+        $calendarId = "3f8da0694d48abb2ac8cfc233b6a75b6b30c3e4096395d15771aef3657e76bfb@group.calendar.google.com";
+
+        $title = $request->title;
+        $instructor_id = $request->instructor_id;
+
+        $start = $request->start;
+        $finish = $request->finish;
+        $event = new Google_Service_Calendar_Event(array(
+            
+
+       
+            'summary' => $instructor_id,
+            // 'description' =>$title,
+            'start' => array(
+            // 開始日時
+            'dateTime' => $start.':00+09:00',
+            'timeZone' => 'Asia/Tokyo',
+            ),
+            'end' => array(
+            // 終了日時
+            'dateTime' => $finish.':00+09:00',
+            'timeZone' => 'Asia/Tokyo',
+            ),
+        ));
+
         $lessons = new Lesson;
         $lesson = $lessons->find($id);
-        $lesson->instructor_id = $request->instructor_id;
-        $lesson->title = $request->title;
-        $lesson->start = $request->start;
-        $lesson->finish = $request->finish;
+        
+        $event = $service->events->update($calendarId,$lesson['google_id'], $event);
+
+        
+        $lesson->instructor_id = $instructor_id;
+        $lesson->title = $title;
+        $lesson->start = $start;
+        $lesson->finish = $finish;
         $lesson->color = $request->color;
         // $columns = ['title', 'instructor_id', 'start','finish', 'color'];
 
@@ -131,12 +163,21 @@ class LessonController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function destroy(Lesson $lesson)
-    {
+    {        
         $lesson->delete();
+        $client = $this->getClient();
+        $service = new Google_Service_Calendar($client);
+
+        $calendarId = "3f8da0694d48abb2ac8cfc233b6a75b6b30c3e4096395d15771aef3657e76bfb@group.calendar.google.com";
+
+        $event = $service->events->delete($calendarId,$lesson['google_id']);
+
     
         return redirect('lesson');
 
     }
+
+
 
     public function lesson_creat(LessonData $request)
     {
@@ -170,7 +211,6 @@ class LessonController extends Controller
 
         
         $event = $service->events->insert($calendarId, $event);
-        echo "イベントを追加しました";
         $lesson = new Lesson;
 
         $lesson->instructor_id = $request->instructor_id;
@@ -178,6 +218,7 @@ class LessonController extends Controller
         $lesson->start = $request->start;
         $lesson->finish = $request->finish;
         $lesson->color = $request->color;
+        $lesson->google_id = $event->id;
 
         $lesson->save();
 

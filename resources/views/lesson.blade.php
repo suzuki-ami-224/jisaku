@@ -29,9 +29,8 @@
                     </th>
                     <th>
                         <a href="{{ route('lesson.edit', ['lesson' => $lesson->lessonid]) }}">
-                            
                             <div><button  class='btn btn-primary'>編集</button></div>
-</a>
+                        </a>
                         <form action="{{ route('lesson.destroy', ['lesson' => $lesson->lessonid]) }}" method="POST">
                             {{ csrf_field() }}
                             @method('DELETE')

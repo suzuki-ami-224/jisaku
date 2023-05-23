@@ -39,7 +39,7 @@ return [
     'digits_between' => 'The :attribute must be between :min and :max digits.',
     'dimensions' => 'The :attribute has invalid image dimensions.',
     'distinct' => 'The :attribute field has a duplicate value.',
-    'email' => 'The :attribute must be a valid email address.',
+    'email' => '正しい :attribute を入力してください。',
     'ends_with' => 'The :attribute must end with one of the following: :values.',
     'exists' => 'The selected :attribute is invalid.',
     'file' => 'The :attribute must be a file.',
@@ -59,7 +59,7 @@ return [
     'image' => 'The :attribute must be an image.',
     'in' => 'The selected :attribute is invalid.',
     'in_array' => 'The :attribute field does not exist in :other.',
-    'integer' => 'The :attribute must be an integer.',
+    'integer' => ':attribute must be an integer.',
     'ip' => 'The :attribute must be a valid IP address.',
     'ipv4' => 'The :attribute must be a valid IPv4 address.',
     'ipv6' => 'The :attribute must be a valid IPv6 address.',
@@ -147,15 +147,18 @@ return [
     */
 
     'attributes' => [
-            'name' =>'氏名',
+            'name' =>'名前',
             'comment' => 'コメント',
             'genre_id' =>'ジャンル',
             'picture' => '画像',
             'instructor_id' =>'講師', 
+            'email' => 'メールアドレス',
             
             'title' =>'レッスン名',
             'start' => '開始時間',
             'finish' => '終了時間',
+            'color' => 'カラー',
+
 
     ],
 

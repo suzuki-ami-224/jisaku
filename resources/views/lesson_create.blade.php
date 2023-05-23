@@ -4,17 +4,6 @@
 
 <a href="{{ route('user.index')}}">戻る</a>
 
-@if($errors->any())
-    <div class='alert alert-danger'>
-        <ul>
-        @foreach($errors->all() as $message)
-            <li>{{ $message }} </li>
-        @endforeach
-        </ul>
-    </div>
-    @endif
-
-
 
 <div>レッスン登録</div>
 
