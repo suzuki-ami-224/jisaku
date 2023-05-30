@@ -2,90 +2,77 @@
 
 @section('content')
 
-<a href="{{ route('user.index')}}">戻る</a>
+<div class="container my-5">
+    <a href="{{ route('user.index')}}" class="btn btn-primary mb-3">戻る</a>
 
-<div class="search" >
-    <form action="{{ route('reservation.index') }}" method="GET">
-        @csrf
-        
-        <div class="form-group">
-            <div style="display:flex;">
-                <div>
-                    <label for="">講師名
-                    <div>
-                        <select name="name" data-toggle="select">
-                            <option value="">全て</option>
-                            @foreach ($instructors as $instructor)
-                            @if($instructor['name'] == $name)
-                                <option value="{{ $instructor['name'] }}"  selected>{{ $instructor['name'] }}</option>
-                                @else
-                                <option value="{{ $instructor['name'] }}">{{ $instructor['name'] }}</option>
-                                @endif
-                            @endforeach
-                        </select>
-                    </div>
-                    </label>
-                </div>
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="search">
+                <form action="{{ route('reservation.index') }}" method="GET" class="mb-3">
+                    @csrf
 
-                <div>
-                    <label for="">ジャンル
-                    <div>
-                        <select name="genre" data-toggle="select">
-　                        <option value="">全て</option>
-                            @foreach ($genres as $genre)
-                            @if($genre['name'] == $genre)
-                                <option value="{{ $genre['name'] }}"  selected>{{ $genre['name'] }}</option>
-                                @else
-                                <option value="{{ $genre['name'] }}">{{ $genre['name'] }}</option>
-                                @endif
-                            @endforeach
-                        </select>
-                    </div>
-                    </label>
-                </div>
+                    <div class="form-group row">
+                        <div class="col-md-4">
+                            <label for="name">講師名</label>
+                            <select name="name" id="name" class="form-control">
+                                <option value="">全て</option>
+                                @foreach ($instructors as $instructor)
+                                    <option value="{{ $instructor['name'] }}" @if($instructor['name'] == $name) selected @endif>{{ $instructor['name'] }}</option>
+                                @endforeach
+                            </select>
+                        </div>
 
-                <div>
-                    <label for="">日時
-                    <div>
-                        <select name="lesson" data-toggle="select">
-　                        <option value="">全て</option>
-                            @foreach ($lessons as $lesson)
-                            @if($lesson['start'] == $lesson)
-                                <option value="{{ $lesson['start'] }}"  selected>{{ $lesson['start'] }}</option>
-                                @else
-                                <option value="{{ $lesson['start'] }}">{{ $lesson['start'] }}</option>
-                                @endif
-                            @endforeach
-                        </select>
+                        <div class="col-md-4">
+                            <label for="genre">ジャンル</label>
+                            <select name="genre" id="genre" class="form-control">
+                                <option value="">全て</option>
+                                @foreach ($genres as $genre)
+                                    <option value="{{ $genre['name'] }}" @if($genre['name'] == $genre) selected @endif>{{ $genre['name'] }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+
+                        <div class="col-md-4">
+                            <label for="lesson">日時</label>
+                            <select name="lesson" id="lesson" class="form-control">
+                                <option value="">全て</option>
+                                @foreach ($lessons as $lesson)
+                                    <option value="{{ $lesson['start'] }}" @if($lesson['start'] == $lesson) selected @endif>{{ $lesson['start'] }}</option>
+                                @endforeach
+                            </select>
+                        </div>
                     </div>
-                    </label>
-                </div>
-                
-                <div>
-                    <input type="submit" class="btn" value="検索">
-                </div>
+
+                    <div class="text-center">
+                        <button type="submit" class="btn btn-primary">検索</button>
+                    </div>
+                </form>
             </div>
+
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>id</th>
+                        <th>講師名</th>
+                        <th>ジャンル</th>
+                        <th>日時</th>
+                        <th>予約</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach ($items as $item)
+                        <tr>
+                            <td>{{ $item->id }}</td>
+                            <td>{{ $item->name }}</td>
+                            <td>{{ $item->genresname }}</td>
+                            <td>{{ $item->start }}</td>
+                            <td><a href="{{ route('reservation.edit', ['reservation' => $item->id]) }}" class="btn btn-primary">予約</a></td>
+                        </tr>
+                    @endforeach
+                </tbody>
+            </table>
         </div>
-    </form>
+    </div>
 </div>
 
-    <table>
-        <tr>
-            <th>id</th>
-            <th>講師名</th>
-            <th>ジャンル</th>
-            <th>日時</th>
-        </tr>
-
-        @foreach ($items as $item)
-        <tr>
-            <td>{{ $item->id }}</td>
-            <td>{{ $item->name }}</td>
-            <td>{{ $item->genresname }}</td>
-            <td>{{ $item->start }}</td>
-            <td><a href="{{ route('reservation.edit', ['reservation' => $item->id])}}">予約</a></td>
-        </tr>
-        @endforeach
-</td>
-    </table>
 @endsection

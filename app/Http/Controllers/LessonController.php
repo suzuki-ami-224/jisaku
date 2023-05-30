@@ -133,6 +133,7 @@ class LessonController extends Controller
             ),
         ));
 
+        
         $lessons = new Lesson;
         $lesson = $lessons->find($id);
         

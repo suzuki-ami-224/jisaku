@@ -30,7 +30,8 @@ class InstructorPolicy
      */
     public function view(User $user, Instructor $instructor)
     {
-        
+        return $user->id === $instructor->user_id;
+
     }
 
     /**

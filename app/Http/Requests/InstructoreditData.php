@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class CreateData extends FormRequest
+class InstructoreditData extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -13,7 +13,7 @@ class CreateData extends FormRequest
      */
     public function authorize()
     {
-        return true;
+        return false;
     }
 
     /**
@@ -25,15 +25,8 @@ class CreateData extends FormRequest
     {
         return [
             'name' =>'required',
-            // 'picture' => 'required',
             'comment' => 'required|max:50',
             'genre_id' => 'required',
-            
-
-
-
-
-
         ];
     }
 }

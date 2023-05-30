@@ -16,7 +16,9 @@ Route::get('/',function(){
     return view('auth.login');
 });
 
-Route::group(['middleware' => 'auth'],function(){
+// Route::group(['middleware' => 'auth'],function(){
+// Route::group(['middleware' => 'can:view,instructor'],function(){
+// Route::group(['middleware' => 'can:view,reservation'],function(){
 
     Route::resource('user', 'UserController');
     Route::resource('admin', 'AdminController');
@@ -27,5 +29,7 @@ Route::group(['middleware' => 'auth'],function(){
     Route::get('/home', 'HomeController@index')->name('home');
     Route::get('/api','LessonController@lesson_creat')->name('lesson.creat');
 
-});
+// });
+// });
+// });
 

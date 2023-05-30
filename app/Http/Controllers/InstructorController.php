@@ -8,6 +8,7 @@ use App\Instructor;
 use App\Genre;
 use Illuminate\Http\Request;
 use App\Http\Requests\CreateData;
+use App\Http\Requests\InstructoreditData;
 
 use Image;
 
@@ -110,22 +111,23 @@ class InstructorController extends Controller
      */
     public function update(CreateData $request, Instructor $instructor)
     {
-            $columns = ['name', 'genre_id', 'comment'];
+        $picture=$request->file('picture');
+        if(isset($picture)){
 
             $dir = 'picture';
             $file_name =$request->file('picture')->getClientOriginalName();
             $request->file('picture')->storeAs('public/' . $dir, $file_name);
-            
-            
-            
-            foreach($columns as $column) {
-                $instructor->$column = $request->$column;
-            }
             $instructor->picture = $file_name;
-            
-            $instructor->save();
-    
-    
+                        
+        }
+        $columns = ['name', 'genre_id', 'comment'];
+        foreach($columns as $column) {
+            $instructor->$column = $request->$column;
+        }
+        
+        $instructor->save();
+
+
             return redirect('/instructor');
     
         

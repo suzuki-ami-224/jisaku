@@ -119,6 +119,10 @@ class UserController extends Controller
             'user' => $user,
             'reservations' =>$reservations
         ]);
+
+
+
+        
     }
 
     /**
@@ -162,7 +166,16 @@ class UserController extends Controller
         $user->save();
 
 
-        return redirect()->route('user.show',['user'=>Auth::id()]);
+        
+        if(Auth::user()->role == 0){
+
+            return redirect()->route('user.show',['user'=>Auth::id()]);
+            
+        }else{
+            return view('mypage_admin',[
+            ]);
+            }
+
 
 
     }
